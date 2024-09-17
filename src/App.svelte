@@ -186,8 +186,39 @@
   </style>
 </svelte:head>
 
-<div class = "label">
-  <h> Sveltequencer </h>
+<div class = "nav">
+  <nav class = "navbar">
+    <ul>
+      <li>
+        <div class = "label">
+          <h> Sveltequencer </h>
+        </div>
+      </li>
+      <li>
+        <a class = "scales" href="#">Scales</a>
+        <ul>
+          <li><button on:click = {() => handleScaleChange(0)} class = "cmajorbtn">C-major</button></li>
+          <li><button on:click = {() => handleScaleChange(1)} class = "dmajorbtn">D-major</button></li>
+          <li><button on:click = {() => handleScaleChange(2)} class = "emajorbtn">E-major</button></li>
+          <li><button on:click = {() => handleScaleChange(3)} class = "fmajorbtn">F-major</button></li>
+          <li><button on:click = {() => handleScaleChange(4)} class = "gmajorbtn">G-major</button></li>
+          <li><button on:click = {() => handleScaleChange(5)} class = "amajorbtn">A-major</button></li>
+          <li><button on:click = {() => handleScaleChange(6)} class = "bmajorbtn">B-major</button></li>
+        </ul>
+      </li>
+      <li>
+        <a class = "synths" href="#">Synths</a>
+        <ul>
+          <li><button on:click = {() => handleSynthChange(0)} class = "basesynthbtn">Normal Synth</button></li>
+          <li><button on:click = {() => handleSynthChange(1)} class = "monosynthbtn">Mono Synth</button></li>
+          <li><button on:click = {() => handleSynthChange(2)} class = "fmsynthbtn">FM Synth</button></li>
+          <li><button on:click = {() => handleSynthChange(3)} class = "amsynthbtn">AM Synth</button></li>
+          <li><button on:click = {() => handleSynthChange(4)} class = "metalsynthbtn">Metal Synth</button></li>
+          <li><button on:click = {() => handleSynthChange(5)} class = "plucksynthbtn">Pluck Synth</button></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
 </div>
 
 <div class = "content">
@@ -215,40 +246,80 @@
       <button on:click = {handlePlayClick} class = "playbtn">Play</button>
     {/if}
   </div>
-
-  <div class = "dropdown">
-    <button class = "dropbtn">Scales</button>
-    <div class = "dropdown-content">
-      <button on:click = {() => handleScaleChange(0)} class = "cmajorbtn">C-major</button>
-      <button on:click = {() => handleScaleChange(1)} class = "dmajorbtn">D-major</button>
-      <button on:click = {() => handleScaleChange(2)} class = "emajorbtn">E-major</button>
-      <button on:click = {() => handleScaleChange(3)} class = "fmajorbtn">F-major</button>
-      <button on:click = {() => handleScaleChange(4)} class = "gmajorbtn">G-major</button>
-      <button on:click = {() => handleScaleChange(5)} class = "amajorbtn">A-major</button>
-      <button on:click = {() => handleScaleChange(6)} class = "bmajorbtn">B-major</button>
-    </div>
-  </div>
-
-  <div class = "dropdown">
-    <button class = "dropbtn">Synths</button>
-    <div class = "dropdown-content">
-      <button on:click = {() => handleSynthChange(0)} class = "basesynthbtn">Normal Synth</button>
-      <button on:click = {() => handleSynthChange(1)} class = "monosynthbtn">Mono Synth</button>
-      <button on:click = {() => handleSynthChange(2)} class = "fmsynthbtn">FM Synth</button>
-      <button on:click = {() => handleSynthChange(3)} class = "amsynthbtn">AM Synth</button>
-      <button on:click = {() => handleSynthChange(4)} class = "metalsynthbtn">Metal Synth</button>
-      <button on:click = {() => handleSynthChange(5)} class = "plucksynthbtn">Pluck Synth</button>
-    </div>
-  </div>
 </div>
 
 
 <style>
-  .label { 
+  .navbar {
+    background-color: #1d1c1c;
     position: absolute;
+    width: 100%;
+    z-index: 999;
+    text-align: left;
+    top: 0px;
+    left: 0px;
+  }
+
+  .navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .navbar li {
+    display: inline-block;
+  }
+
+  .navbar li a {
+    color: white;
+    display: block;
+    padding: 10px 20px;
+    text-decoration: none;
+  }
+
+  .navbar ul ul {
+    position: absolute;
+    top: 100%;
+    display: none;
+  }
+
+  .navbar ul ul li {
+    display: block;
+  }
+
+  .navbar ul ul li button{
+    width: 150px;
+    height:30px;
+    text-align: left;
     font-family: "press start 2p", system-ui;
     font-weight: 400;
     font-style: normal;
+    font-size: 10px;
+  }
+
+  .navbar li:hover ul {
+    display: block;
+  }
+
+  .label { 
+    margin-left: 10px;
+    font-family: "press start 2p", system-ui;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  .scales {
+    font-family: "press start 2p", system-ui;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 13.5px;
+  }
+
+  .synths {
+    font-family: "press start 2p", system-ui;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 13.5px;
   }
 
   .sequencer {
@@ -274,7 +345,6 @@
     background: black;
     border: 1px solid black;
     color: black;
-    border-radius: 0px;
   }
 
   .bpm-controls {
@@ -294,7 +364,6 @@
   }
 
   .playbtn {
-    border-radius: 0px;
     font-family: "press start 2p", system-ui;
     font-weight: 400;
     font-style: normal;
@@ -304,7 +373,6 @@
  .beat-indicator {
     width: 10px;
     height: 10px;
-    border-radius: 0px;
     background: #555;
     display: flex;
     justify-content: center;
@@ -317,25 +385,4 @@
   .live {
     background: #05f18f;
   } 
-
-  .dropdown {
-    margin-top: 5px;
-    display: inline-block;
-  }
-
-  .dropbtn {
-    border-radius: 0px;
-    font-family: "press start 2p", system-ui;
-    font-weight: 400;
-    font-style: normal;
-    font-size: 14px;
-  }
-
-  .dropdown-content {
-    display: none;
-    position: absolute;
-  }
-
-  .dropdown:hover .dropdown-content {display: block;}
-  .dropdown:hover .dropdown-content {background-color: grey;}
 </style>
