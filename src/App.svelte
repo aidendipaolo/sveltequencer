@@ -7,17 +7,18 @@
   let beat = 0;
   let isPlaying = false;
   let synths = instruments[0];
-  let scaleIndex = 0;
+  let currScale = 0;
+  let currSynth = 0;
 
   let rows = [
-    Array.from({length: 16}, (_, i) => ({note: scales[scaleIndex][7], active: false})),
-    Array.from({length: 16}, (_, i) => ({note: scales[scaleIndex][6], active: false})),
-    Array.from({length: 16}, (_, i) => ({note: scales[scaleIndex][5], active: false})),
-    Array.from({length: 16}, (_, i) => ({note: scales[scaleIndex][4], active: false})),
-    Array.from({length: 16}, (_, i) => ({note: scales[scaleIndex][3], active: false})),
-    Array.from({length: 16}, (_, i) => ({note: scales[scaleIndex][2], active: false})),
-    Array.from({length: 16}, (_, i) => ({note: scales[scaleIndex][1], active: false})),
-    Array.from({length: 16}, (_, i) => ({note: scales[scaleIndex][0], active: false}))
+    Array.from({length: 16}, (_, i) => ({note: scales[currScale][7], active: false})),
+    Array.from({length: 16}, (_, i) => ({note: scales[currScale][6], active: false})),
+    Array.from({length: 16}, (_, i) => ({note: scales[currScale][5], active: false})),
+    Array.from({length: 16}, (_, i) => ({note: scales[currScale][4], active: false})),
+    Array.from({length: 16}, (_, i) => ({note: scales[currScale][3], active: false})),
+    Array.from({length: 16}, (_, i) => ({note: scales[currScale][2], active: false})),
+    Array.from({length: 16}, (_, i) => ({note: scales[currScale][1], active: false})),
+    Array.from({length: 16}, (_, i) => ({note: scales[currScale][0], active: false}))
   ];
 
   let beatIndicators = Array.from({ length: 16 }, (_, i) => i);
@@ -45,14 +46,14 @@
 
   const handleResetClick = () => {
     rows = [
-      Array.from({length: 16}, (_, i) => ({note: scales[scaleIndex][7], active: false})),
-      Array.from({length: 16}, (_, i) => ({note: scales[scaleIndex][6], active: false})),
-      Array.from({length: 16}, (_, i) => ({note: scales[scaleIndex][5], active: false})),
-      Array.from({length: 16}, (_, i) => ({note: scales[scaleIndex][4], active: false})),
-      Array.from({length: 16}, (_, i) => ({note: scales[scaleIndex][3], active: false})),
-      Array.from({length: 16}, (_, i) => ({note: scales[scaleIndex][2], active: false})),
-      Array.from({length: 16}, (_, i) => ({note: scales[scaleIndex][1], active: false})),
-      Array.from({length: 16}, (_, i) => ({note: scales[scaleIndex][0], active: false}))
+      Array.from({length: 16}, (_, i) => ({note: scales[currScale][7], active: false})),
+      Array.from({length: 16}, (_, i) => ({note: scales[currScale][6], active: false})),
+      Array.from({length: 16}, (_, i) => ({note: scales[currScale][5], active: false})),
+      Array.from({length: 16}, (_, i) => ({note: scales[currScale][4], active: false})),
+      Array.from({length: 16}, (_, i) => ({note: scales[currScale][3], active: false})),
+      Array.from({length: 16}, (_, i) => ({note: scales[currScale][2], active: false})),
+      Array.from({length: 16}, (_, i) => ({note: scales[currScale][1], active: false})),
+      Array.from({length: 16}, (_, i) => ({note: scales[currScale][0], active: false}))
     ];
     beat = 0;
   }
@@ -67,15 +68,18 @@
   }
 
   const handleScaleChange = (scaleIndex) => {
+    currScale = scaleIndex;
+
     for(let i = 0, j = 7; i < rows.length; i++, j--) {
       for(let obj of rows[i]) {
-        obj.note = scales[scaleIndex][j];
+        obj.note = scales[currScale][j];
       }
     }
   }
 
   const handleSynthChange = (synthIndex) => {
-    synths = instruments[synthIndex];
+    currSynth = synthIndex;
+    synths = instruments[currSynth];
   }
 </script>
 
@@ -96,24 +100,31 @@
     <li>
       <a class = "scales" href="#">Scales</a>
       <ul>
-        <li><button on:click = {() => handleScaleChange(0)} class = "cmajorbtn">C-major</button></li>
-        <li><button on:click = {() => handleScaleChange(1)} class = "dmajorbtn">D-major</button></li>
-        <li><button on:click = {() => handleScaleChange(2)} class = "emajorbtn">E-major</button></li>
-        <li><button on:click = {() => handleScaleChange(3)} class = "fmajorbtn">F-major</button></li>
-        <li><button on:click = {() => handleScaleChange(4)} class = "gmajorbtn">G-major</button></li>
-        <li><button on:click = {() => handleScaleChange(5)} class = "amajorbtn">A-major</button></li>
-        <li><button on:click = {() => handleScaleChange(6)} class = "bmajorbtn">B-major</button></li>
+        <li><button on:click = {() => handleScaleChange(0)} class = "scalesbtn {0 === currScale ? 'toggled' : ''}">C-major</button></li>
+        <li><button on:click = {() => handleScaleChange(1)} class = "scalesbtn {1 === currScale ? 'toggled' : ''}">D-major</button></li>
+        <li><button on:click = {() => handleScaleChange(2)} class = "scalesbtn {2 === currScale ? 'toggled' : ''}">E-major</button></li>
+        <li><button on:click = {() => handleScaleChange(3)} class = "scalesbtn {3 === currScale ? 'toggled' : ''}">F-major</button></li>
+        <li><button on:click = {() => handleScaleChange(4)} class = "scalesbtn {4 === currScale ? 'toggled' : ''}">G-major</button></li>
+        <li><button on:click = {() => handleScaleChange(5)} class = "scalesbtn {5 === currScale ? 'toggled' : ''}">A-major</button></li>
+        <li><button on:click = {() => handleScaleChange(6)} class = "scalesbtn {6 === currScale ? 'toggled' : ''}">B-major</button></li>
+        <li><button on:click = {() => handleScaleChange(7)} class = "scalesbtn {7 === currScale ? 'toggled' : ''}">C-minor</button></li>
+        <li><button on:click = {() => handleScaleChange(8)} class = "scalesbtn {8 === currScale ? 'toggled' : ''}">D-minor</button></li>
+        <li><button on:click = {() => handleScaleChange(9)} class = "scalesbtn {9 === currScale ? 'toggled' : ''}">E-minor</button></li>
+        <li><button on:click = {() => handleScaleChange(10)} class = "scalesbtn {10 === currScale ? 'toggled' : ''}">F-minor</button></li>
+        <li><button on:click = {() => handleScaleChange(11)} class = "scalesbtn {11 === currScale ? 'toggled' : ''}">G-minor</button></li>
+        <li><button on:click = {() => handleScaleChange(12)} class = "scalesbtn {12 === currScale ? 'toggled' : ''}">A-minor</button></li>
+        <li><button on:click = {() => handleScaleChange(13)} class = "scalesbtn {13 === currScale ? 'toggled' : ''}">B-minor</button></li>
       </ul>
     </li>
     <li>
       <a class = "synths" href="#">Synths</a>
       <ul>
-        <li><button on:click = {() => handleSynthChange(0)} class = "basesynthbtn">Normal Synth</button></li>
-        <li><button on:click = {() => handleSynthChange(1)} class = "monosynthbtn">Mono Synth</button></li>
-        <li><button on:click = {() => handleSynthChange(2)} class = "fmsynthbtn">FM Synth</button></li>
-        <li><button on:click = {() => handleSynthChange(3)} class = "amsynthbtn">AM Synth</button></li>
-        <li><button on:click = {() => handleSynthChange(4)} class = "metalsynthbtn">Metal Synth</button></li>
-        <li><button on:click = {() => handleSynthChange(5)} class = "plucksynthbtn">Pluck Synth</button></li>
+        <li><button on:click = {() => handleSynthChange(0)} class = "synthsbtn {0 === currSynth ? 'toggled' : ''}">Normal Synth</button></li>
+        <li><button on:click = {() => handleSynthChange(1)} class = "synthsbtn {1 === currSynth ? 'toggled' : ''}">Mono Synth</button></li>
+        <li><button on:click = {() => handleSynthChange(2)} class = "synthsbtn {2 === currSynth ? 'toggled' : ''}">FM Synth</button></li>
+        <li><button on:click = {() => handleSynthChange(3)} class = "synthsbtn {3 === currSynth ? 'toggled' : ''}">AM Synth</button></li>
+        <li><button on:click = {() => handleSynthChange(4)} class = "synthsbtn {4 === currSynth ? 'toggled' : ''}">Metal Synth</button></li>
+        <li><button on:click = {() => handleSynthChange(5)} class = "synthsbtn {5 === currSynth ? 'toggled' : ''}">Pluck Synth</button></li>
       </ul>
     </li>
   </ul>
@@ -193,6 +204,10 @@
     font-style: normal;
     font-size: 10px;
   }
+
+  .toggled {
+    background: #838383;
+  } 
 
   .navbar li:hover ul {
     display: block;
