@@ -58,6 +58,10 @@
     beat = 0;
   }
 
+  const handleIndicatorClick = (bi) => {
+    beat = bi;
+  }
+
   const handleStopClick = () => {
     Tone.Transport.stop();
     isPlaying = false;
@@ -137,7 +141,9 @@
 
 <div class = "sequencer">
   {#each beatIndicators as beatIndicator, bi} 
-    <div class="beat-indicator {bi === beat ? 'live' : ''}"></div>
+    <div class="beat-indicator {bi === beat ? 'live' : ''}">
+      <button on:click = {() => handleIndicatorClick(bi)} class="bibtn"></button>
+    </div>
   {/each}
 
   {#each rows as row, i}
@@ -294,8 +300,20 @@
     justify-content: center;
     align-items: center;
     color: #fff;
-    font-size: 0.5rem;
+    font-size: 0.2rem;
     margin: 0 auto;
+  }
+
+  .beat-indicator button {
+    margin-left: -20px;
+    margin-right: -20px;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+  }
+
+  .beat-indicator button:hover {
+    border-color: transparent;
   }
 
   .live {
